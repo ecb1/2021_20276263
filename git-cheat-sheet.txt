@@ -1,0 +1,6 @@
+Git Cheat Sheet 
+ - git show <SHA hash code> : shows the modifications applied at the specified commit.
+ - git log: gives information about the commit history up to the commit you currently have checked out (i.e. the commit pointed to by HEAD)
+ - git checkout <ma: 
+ - git init:
+ - git reset:
