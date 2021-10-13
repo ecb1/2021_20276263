@@ -1,6 +1,8 @@
 Git Cheat Sheet 
  - git show <SHA hash code> : shows the modifications applied at the specified commit.
  - git log: gives information about the commit history up to the commit you currently have checked out (i.e. the commit pointed to by HEAD)
- - git checkout <ma: 
- - git init:
- - git reset:
+ - git checkout: this can be used to discard changes made in the working tree by checking out (overwriting files with) previous versions 
+ - git init: creates a hidden folder called .git that it uses to store the history of the your repoisitory 
+ - git reset: The git reset command changes where HEAD and the current branch name (e.g. master) refer to. By resetting it to refer to an 
+              older commit, you effectively forget about the newer commit. Note that it does not get deleted from disk, it just disappeared 
+              from git’s history books
