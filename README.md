@@ -1,3 +1,1 @@
-echo Read this very carefully
-
-Priority: code stability
+User 1 says hello!
