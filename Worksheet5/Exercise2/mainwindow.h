@@ -21,6 +21,7 @@ public:
 public slots:
        void handleAddButton();
        void handleEditButton();
+       void handleInsertButton();
        void handleRemoveButton();
        void saveList();
 // ---------------------------------------------------------------------

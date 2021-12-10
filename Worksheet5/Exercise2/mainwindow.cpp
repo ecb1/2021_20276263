@@ -5,12 +5,18 @@
 #include "edititemdialog.h"
 #include <QMessageBox>
 #include <QFile>
+#include <QFileDialog>
+#include <QTextStream>
+#include <QIcon>
 #include "stockitemlistmodel.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent),
    ui(new Ui::MainWindow) {
    ui->setupUi(this);
+   
+   ui->action_Save->setIcon(QIcon("save_icon.png"));
    
    // Link the ListModel to the ListView
    ui->listView->setModel( &stockList );
@@ -20,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
    // Connect the released() signal of the addButton object to the handleAddButton slot in this object
    connect( ui->addButton, &QPushButton::released, this, &MainWindow::handleAddButton );
       connect( ui->editButton, &QPushButton::released, this, &MainWindow::handleEditButton );
+      connect( ui->insertButton, &QPushButton::released, this, &MainWindow::handleInsertButton );
       connect( ui->removeButton, &QPushButton::released, this, &MainWindow::handleRemoveButton );
       connect( this, &MainWindow::statusUpdateMessage, ui->statusBar, &QStatusBar::showMessage );
       connect(ui->action_Save, &QAction::triggered, this, &MainWindow::saveList );
@@ -36,6 +43,23 @@ void MainWindow::handleAddButton() {
 
    emit statusUpdateMessage( QString("Add button was clicked"), 0 );
 }
+
+
+void MainWindow::handleInsertButton() {
+   EditItemDialog dialog(this);
+   QModelIndexList selectedList;
+   StockItem item;
+   
+   selectedList = ui->listView->selectionModel()->selectedIndexes();
+   
+   if (selectedList.length() == 1)
+       //selectedList is a list of all selected items in the listView. Since we set its
+       //behaviour to single selection, we're only interested in the first selected item.
+       stockList.insertItem(item, selectedList[0]);
+       
+       emit statusUpdateMessage( QString("Insert button was clicked"), 0 );
+}
+
 
 void MainWindow::handleEditButton() {
    EditItemDialog dialog( this );
@@ -68,21 +92,17 @@ void MainWindow::handleRemoveButton() {
 }
 
 void MainWindow::saveList() {
-   QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
-                           "C:\\Users\\eeyec3\\Desktop",
-                           tr("Images (*.txt)"));
-
-   QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return;
-
-    QTextStream out(&file);
-    for(int i = 0; i < stockList.rowCount(); i++) {
-        out<<stockList<data<<"\n";
-}
-
-   emit statusUpdateMessage( QString("The stock list has been saved"), 0 );
+   QString filename = QFileDialog::getSaveFileName(this, tr("Save List"), "/List", tr("Text Files (*.txt)"));
    
+   QFile file(filename);
+   
+   if (file.open(QFile::WriteOnly)) {
+       QTextStream out(&file);
+       for (int i = 0; i < stockList.rowCount(); i++) {
+           out << stockList.getItem_int(i).getName() << " " << stockList.getItem_int(i).getUnitCost() << " " << stockList.getItem_int(i).getStockLevel() << " " << stockList.getItem_int(i).getReorder() << "\n";
+       }
+   }
+
 }
 
 // ---------------------------------------------------------------------

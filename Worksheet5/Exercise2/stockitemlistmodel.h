@@ -25,6 +25,8 @@ public:
 
    // to allow accessing stored list item properties
    StockItem getItem( const QModelIndex &index ) const;
+   int getItemTotal();
+   StockItem getItem_int(int index);
 
 private:
    std::vector<StockItem> stockItems;
