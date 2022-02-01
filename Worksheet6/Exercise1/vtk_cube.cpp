@@ -1,70 +1,49 @@
 // vtk_cube.cpp-----------------------------------------------------------------
-#include <vtkSmartPointer.h>
-#include <vtkCubeSource.h>
 #include <vtkActor.h>
-#include <vtkProperty.h>
-#include <vtkCamera.h>
+#include <vtkCylinderSource.h>
+#include <vtkNamedColors.h>
+#include <vtkNew.h>
 #include <vtkPolyData.h>
-#include <vtkDataSetMapper.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkProperty.h>
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
 #include <vtkRenderer.h>
-#include <vtkNamedColors.h>
 
 int main(int, char* [])
 {
-    // Create a cube using a vtkCubeSource
-    vtkSmartPointer<vtkCubeSource> cubeSource =
-        vtkSmartPointer<vtkCubeSource>::New();
+	vtkNew<vtkNamedColors> colors;
 
-    // Create a mapper that will hold the cube's geometry in a format suitable for
-      // rendering
-    vtkSmartPointer<vtkDataSetMapper> mapper =
-        vtkSmartPointer<vtkDataSetMapper>::New();
-    
-    mapper->SetInputConnection(cubeSource->GetOutputPort());
+	// Create a sphere
+	vtkNew<vtkCylinderSource> cylinderSource;
+	cylinderSource->SetCenter(0.0, 0.0, 0.0);
+	cylinderSource->SetRadius(5.0);
+	cylinderSource->SetHeight(7.0);
+	cylinderSource->SetResolution(100);
 
-    // Create an actor that is used to set the cube's properties for rendering
-      // and place it in the window
-    vtkSmartPointer<vtkActor> actor =
-        vtkSmartPointer<vtkActor>::New();
-    
-    actor->SetMapper(mapper);
-    actor->GetProperty()->EdgeVisibilityOn();
-    
-    vtkSmartPointer<vtkNamedColors> colors =
-        vtkSmartPointer<vtkNamedColors>::New();
-    actor->GetProperty()->SetColor(colors->GetColor3d("Red").GetData());
-    
-    // Create a renderer, and render window
-    vtkSmartPointer<vtkRenderer> renderer =
-        vtkSmartPointer<vtkRenderer>::New();
-    
-    vtkSmartPointer<vtkRenderWindow> renderWindow
-        vtkSmartPointer<vtkRenderWindow>::New();
-    
-    renderWindow->AddRenderer(renderer);
-    
-    // Link a renderWindowInteractor to the renderer (this allows you to capture
-      // mouse movements etc)
-    vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
-        vtkSmartPointer<vtkRenderWindowInteractor>::New();
-    
-    renderWindowInteractor->SetRenderWindow(renderWindow);
-    
-    // Add the actor to the scene
-    renderer->AddActor(actor);
-    renderer->SetBackground(colors->GetColor3d("Silver").GetData());
-    
-    // Setup the renderers's camera
-    renderer->ResetCamera();
-    renderer->GetActiveCamera()->Azimuth(30);
-    renderer->GetActiveCamera()->Elevation(30);
-    renderer->ResetCameraClippingRange();
-   
-    // Render and interact
-    renderWindow->Render();
-    renderWindowInteractor->Start();
-    return EXIT_SUCCESS;
+	// Create a mapper and actor
+	vtkNew<vtkPolyDataMapper> mapper;
+	mapper->SetInputConnection(cylinderSource->GetOutputPort());
+	vtkNew<vtkActor> actor;
+	actor->GetProperty()->SetColor(colors->GetColor3d("Cornsilk").GetData());
+	actor->SetMapper(mapper);
+
+	// Create a renderer, render window, and interactor
+	vtkNew<vtkRenderer> renderer;
+	vtkNew<vtkRenderWindow> renderWindow;
+	renderWindow->SetWindowName("Cylinder");
+	renderWindow->AddRenderer(renderer);
+	vtkNew<vtkRenderWindowInteractor> renderWindowInteractor;
+	renderWindowInteractor->SetRenderWindow(renderWindow);
+
+	// Add the actor to the scene
+	renderer->AddActor(actor);
+	renderer->SetBackground(colors->GetColor3d("DarkGreen").GetData());
+
+	// Render and interact
+	renderWindow->Render();
+	renderWindowInteractor->Start();
+
+	return EXIT_SUCCESS;
 }
 // /vtk_cube.cpp----------------------------------------------------------------
