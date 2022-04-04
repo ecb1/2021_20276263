@@ -37,16 +37,23 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="ResetButton">
          <property name="text">
           <string>Reset Model View</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="ModelColourButton">
          <property name="text">
           <string>Change Model Colour</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="BackgroundColourButton">
+         <property name="text">
+          <string>Change Background Colour</string>
          </property>
         </widget>
        </item>
@@ -105,14 +112,14 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
-          <widget class="QCheckBox" name="checkBox">
+          <widget class="QCheckBox" name="shrinkFilter_checkBox">
            <property name="text">
             <string>Apply Shrink Filter</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox_2">
+          <widget class="QCheckBox" name="clipFilter_checkBox">
            <property name="text">
             <string>Apply Clip Filter</string>
            </property>
@@ -138,8 +145,16 @@
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuRender">
+     <property name="title">
+      <string>Render...</string>
+     </property>
+     <addaction name="actionCube"/>
+     <addaction name="actionSphere"/>
+    </widget>
     <addaction name="actionFileOpen"/>
     <addaction name="actionFileSave"/>
+    <addaction name="menuRender"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -193,6 +208,16 @@
    </property>
    <property name="text">
     <string>Print</string>
+   </property>
+  </action>
+  <action name="actionCube">
+   <property name="text">
+    <string>Cube</string>
+   </property>
+  </action>
+  <action name="actionSphere">
+   <property name="text">
+    <string>Sphere</string>
    </property>
   </action>
  </widget>
