@@ -9,6 +9,10 @@
 #ifndef MATHSLIB_ADDER_H
 #define MATHSLIB_ADDER_H
 
+/** @file
+* This file contains the declarations of all exported functions. 
+*/
+
 // We need to prefix our function names with an additional
 // keyword which is different depending on the operating
 // system we are using, and whether we are using or creating the
@@ -36,7 +40,9 @@
 // before declarations. This is a Microsoft specific
 // extension to C/C++
 
-// prototype for the function including additional keyword
+/** Brief description
+ *  prototype for the function including additional keyword
+ */
 MATHSLIB_API int add( int a, int b );
 #endif
 // /adder.h --------------------------------------
